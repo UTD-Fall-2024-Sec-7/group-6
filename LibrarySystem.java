@@ -74,7 +74,7 @@ public class LibrarySystem {
             case "id":
                 // Search books by unique ID
                 try {
-                    int id = Integer.parseInt(input); // Convert input to integer
+                    String id = input; // 
                     librarySearch.searchByID(id); // Search for a book matching this ID
                 } catch (NumberFormatException e) {
                     // Handle invalid ID input (non-integer)
