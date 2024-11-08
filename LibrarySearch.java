@@ -6,7 +6,7 @@ public class LibrarySearch {
     private List<LibraryBook> books;
     
     // List to store search results that match the search criteria
-    private List<LibraryBook> results;
+    public List<LibraryBook> results;
 
     // Constructor initializes LibrarySearch with a list of books to search through
     public LibrarySearch(List<LibraryBook> books) {
@@ -137,13 +137,13 @@ public class LibrarySearch {
     }
 
     // Search method to find a book by unique ID
-    public boolean searchByID(int id) {
+    public boolean searchByID(String id) {
         clearResults(); // Clear previous search results
         boolean BookFound = false;
 
         for (LibraryBook book : books) {
             // Add book if its ID matches the given ID
-            if (book.getID().equals(String.valueOf(id))) { // Convert int id to String for comparison
+            if (book.getID().equals(id)) { // comparison
                 results.add(book);
                 BookFound = true;
             }
