@@ -9,7 +9,7 @@ public class LibraryCheckout {
     public boolean checkoutBook(LibraryBook book, User username) {
         // Check if the book is available for checkout
         if (book.isAvailable()) {
-            if(username.checkoutBook(book.getPrice))
+            if(username.checkoutBook(book.getPrice()))
                 // Mark the book as checked out
                 book.checkOut();
                 // Add the book to the checkedOutBooks map using its ID as the key
