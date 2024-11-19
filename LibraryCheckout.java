@@ -15,10 +15,12 @@ public class LibraryCheckout {
             checkedOutBooks.put(book.getID(), book);
             System.out.println("Checkout successful.");
             return true; // Indicate that the checkout was successful
+            user.balance -= book.getPrice;
         }
         // If the book is not available, inform the user
         System.out.println("Book is already checked out.");
         return false; // Indicate that the checkout failed
+        
     }
 
     // Method to return a previously checked out book to the library
@@ -43,7 +45,7 @@ public class LibraryCheckout {
         return checkedOutBooks.containsKey(book.getID());
     }
      // Method to deduct balance when a book is checked out
-    public boolean checkoutBook(double bookCost) {
+    public boolean Userbalance(double bookCost) {
         if (this.balance >= bookCost) {
             this.balance -= bookCost;
             return true;
