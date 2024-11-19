@@ -6,19 +6,20 @@ public class LibraryCheckout {
     private Map<String, LibraryBook> checkedOutBooks = new HashMap<>();
 
     // Method to check out a book from the library
-    public boolean checkoutBook(LibraryBook book, User user) {
+    public boolean checkoutBook(LibraryBook book, User username) {
         // Check if the book is available for checkout
         if (book.isAvailable()) {
-            if(user.checkoutBook())
-            // Mark the book as checked out
-            book.checkOut();
-            // Add the book to the checkedOutBooks map using its ID as the key
-            checkedOutBooks.put(book.getID(), book);
-            
-            user.checkouBook();
-            System.out.println("Checkout successful.");
-            return true; // Indicate that the checkout was successful
-            
+            if(username.checkoutBook())
+                // Mark the book as checked out
+                book.checkOut();
+                // Add the book to the checkedOutBooks map using its ID as the key
+                checkedOutBooks.put(book.getID(), book);
+                System.out.println("Checkout successful.");
+                return true; // Indicate that the checkout was successful
+            } else{
+                System.out.println("Insuffecient balance");
+                return false;
+            }
         }
         // If the book is not available, inform the user
         System.out.println("Book is already checked out.");
@@ -47,14 +48,5 @@ public class LibraryCheckout {
         // Return true if the book's ID exists in the checkedOutBooks map, indicating it is checked out
         return checkedOutBooks.containsKey(book.getID());
     }
-     // Method to deduct balance when a book is checked out
-    public boolean Userbalance(double bookCost) {
-        if (this.balance >= bookCost) {
-            this.balance -= bookCost;
-            return true;
-        } else {
-            System.out.println("Insufficient balance to checkout the book.");
-            return false;
-        }
-    }
+
 }
