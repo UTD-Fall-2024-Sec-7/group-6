@@ -6,7 +6,7 @@ public class LibraryCheckout {
     private Map<String, LibraryBook> checkedOutBooks = new HashMap<>();
 
     // Method to check out a book from the library
-    public boolean checkoutBook(LibraryBook book) {
+    public boolean checkoutBook(LibraryBook book, User user) {
         // Check if the book is available for checkout
         if (book.isAvailable()) {
             // Mark the book as checked out
