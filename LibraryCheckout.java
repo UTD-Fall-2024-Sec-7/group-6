@@ -42,4 +42,14 @@ public class LibraryCheckout {
         // Return true if the book's ID exists in the checkedOutBooks map, indicating it is checked out
         return checkedOutBooks.containsKey(book.getID());
     }
+     // Method to deduct balance when a book is checked out
+    public boolean checkoutBook(double bookCost) {
+        if (this.balance >= bookCost) {
+            this.balance -= bookCost;
+            return true;
+        } else {
+            System.out.println("Insufficient balance to checkout the book.");
+            return false;
+        }
+    }
 }
