@@ -9,11 +9,12 @@ public class LibraryCheckout {
     public boolean checkoutBook(LibraryBook book, User user) {
         // Check if the book is available for checkout
         if (book.isAvailable()) {
+            if(user.checkoutBook())
             // Mark the book as checked out
             book.checkOut();
             // Add the book to the checkedOutBooks map using its ID as the key
             checkedOutBooks.put(book.getID(), book);
-            user.balance -= book.getPrice;
+            
             user.checkouBook();
             System.out.println("Checkout successful.");
             return true; // Indicate that the checkout was successful
