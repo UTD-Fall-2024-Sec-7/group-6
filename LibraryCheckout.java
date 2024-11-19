@@ -13,9 +13,10 @@ public class LibraryCheckout {
             book.checkOut();
             // Add the book to the checkedOutBooks map using its ID as the key
             checkedOutBooks.put(book.getID(), book);
+            user.balance -= book.getPrice;
             System.out.println("Checkout successful.");
             return true; // Indicate that the checkout was successful
-            user.balance -= book.getPrice;
+            
         }
         // If the book is not available, inform the user
         System.out.println("Book is already checked out.");
