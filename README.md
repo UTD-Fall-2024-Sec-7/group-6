@@ -1,5 +1,7 @@
 To start the app
 
+cd frontend
+
 npm install
 
-npm start
+npx next dev
