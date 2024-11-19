@@ -17,7 +17,6 @@ public class LibraryCheckout {
                 System.out.println("Checkout successful.");
                 return true; // Indicate that the checkout was successful
             } else{
-                System.out.println("Insuffecient balance");
                 return false;
             }
         }
