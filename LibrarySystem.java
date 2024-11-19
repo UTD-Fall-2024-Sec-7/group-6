@@ -20,9 +20,9 @@ public class LibrarySystem {
     }
 
     // Method to add a single book to the library
-    public void addBook(String title, String author, String genre, int year, String description) {
+    public void addBook(String title, String author, String genre, int year, String description, boolean price) {
         // Create a new LibraryBook object with provided details
-        LibraryBook newBook = new LibraryBook(title, author, genre, year, description);
+        LibraryBook newBook = new LibraryBook(title, author, genre, year, description, price);
         
         // Add the new book to the library's book list
         books.add(newBook);
@@ -91,6 +91,12 @@ public class LibrarySystem {
         librarySearch.displayResults();
     }
 
+    public String openBookInfo(String title){
+            boolean found = librarySearch.searchByTitle(title);
+            return librarySearch.topResult();
+    }
+    
+
     // Method to check out a specified book
     public void checkoutBook(LibraryBook book) {
         // Attempt to check out the book using the LibraryCheckout object
@@ -101,10 +107,10 @@ public class LibrarySystem {
     private void addSampleBooks() {
         // Add example books to the library's book list with specific details
         books.add(new LibraryBook("The Great Gatsby", "F. Scott Fitzgerald", "Novel", 1925,
-                "A novel about the American dream and the disillusionment of the Jazz Age."));
+                "A novel about the American dream and the disillusionment of the Jazz Age.", 0.00));
         books.add(new LibraryBook("To Kill a Mockingbird", "Harper Lee", "Fiction", 1960,
-                "A powerful story of racial injustice and the loss of innocence in the Deep South."));
+                "A powerful story of racial injustice and the loss of innocence in the Deep South.", 0.00));
         books.add(new LibraryBook("1984", "George Orwell", "Dystopian", 1949,
-                "A chilling vision of a totalitarian future under constant surveillance."));
+                "A chilling vision of a totalitarian future under constant surveillance.", 0.00));
     }
 }

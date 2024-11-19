@@ -4,18 +4,19 @@ public class LibraryBook {
     // Unique identifier for each book, automatically generated
     private String id;
     
-    // Book details: title, author, genre, publication year, and description
+    // Book details: title, author, genre, publication year, description, and price
     private String title;
     private String author;
     private String genre;
     private int year;
     private String description;
+    private double price;
     
     // Availability status of the book (true if available, false if checked out)
     private boolean isAvailable;
 
     // Constructor to initialize a LibraryBook object with specified details
-    public LibraryBook(String title, String author, String genre, int year, String description) {
+    public LibraryBook(String title, String author, String genre, int year, String description, double price) {
         // Generate a unique ID for the book
         this.id = UUID.randomUUID().toString();
         
@@ -25,6 +26,7 @@ public class LibraryBook {
         this.genre = genre;
         this.year = year;
         this.description = description;
+        this.price = price;
         
         // By default, the book is available when created
         this.isAvailable = true;
@@ -67,6 +69,11 @@ public class LibraryBook {
         return isAvailable; 
     }
 
+    // Returns the price of the book
+    public double getPrice() { 
+        return price; 
+    }
+
     // Methods to modify the book's availability status
 
     // Marks the book as checked out by setting isAvailable to false
@@ -81,7 +88,22 @@ public class LibraryBook {
 
     // Overrides the default toString method to provide a readable representation of the book's details
     public String toString() {
-        return "Title: " + title + ", Author: " + author + ", Genre: " + genre + 
-        ", Year: " + year + "\nDescription: " + description;
+        if(isAvailable == true){
+            if(price ==0.00){
+                return "Title: " + title + ", Author: " + author + ", Genre: " + genre + ", Year: " + year
+                 + "\nDescription: " + description +"\nAvailability: Available \nCost: Free";
+            }else{
+                return "Title: " + title + ", Author: " + author + ", Genre: " + genre + ", Year: " + year
+                 + "\nDescription: " + description +"\nAvailability: Available \nCost: $" + price;
+            }
+        }else{
+            if(price ==0.00){
+                return "Title: " + title + ", Author: " + author + ", Genre: " + genre + ", Year: " + year
+                 + "\nDescription: " + description +"\nAvailability: Checked Out \nCost: Free";
+            }else{
+                return "Title: " + title + ", Author: " + author + ", Genre: " + genre + ", Year: " + year
+                 + "\nDescription: " + description +"\nAvailability: Checked Out \nCost: $" + price;
+            }
+        }
     }
 }

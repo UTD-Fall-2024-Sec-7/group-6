@@ -163,12 +163,20 @@ public class LibrarySearch {
             for (LibraryBook book : results) {
                 // Print details of each book and its availability status
                 System.out.println(book.toString());
-                System.out.println("Availability: " + (book.isAvailable() ? "Available" : "Checked out"));
-                System.out.println("----------------------------------------------------------------");
             }
         } else {
             // Print message if no results were found
             System.out.println("No books match your search criteria.");
         }
     }
+
+    public String topResult(){
+        if (!results.isEmpty()) {
+            LibraryBook firstBook = results.get(0);
+            return firstBook.toString();
+        } else{
+            return "No book info found.";
+        }
+        
+    } 
 }

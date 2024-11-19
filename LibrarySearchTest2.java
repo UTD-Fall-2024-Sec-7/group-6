@@ -19,7 +19,7 @@ class LibrarySearchTest2 {
     @BeforeEach
     void setUp() {
         book = new LibraryBook("The Great Gatsby", "F. Scott Fitzgerald", "Novel", 1925,
-                "A novel about the American dream and the disillusionment of the Jazz Age.");//assigning information for book
+                "A novel about the American dream and the disillusionment of the Jazz Age.", 0.00);//assigning information for book
         books = new ArrayList<>();//creating list for storing books
         librarySearch = new LibrarySearch(books);//initializing the search with the list of books
         books.add(book);//adding the book to the list
