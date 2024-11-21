@@ -21,20 +21,25 @@ function Navbar() {
         <ul class="navbar-nav">
           <li class="nav-item active">
             <a class="nav-link" href="#">
-              Home <span class="sr-only">(current)</span>
+              Home
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
-              Features
+              Account
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
-              Pricing
+              Menu
             </a>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Logout
+            </a>
+          </li>
+          {/* <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -56,7 +61,7 @@ function Navbar() {
                 Something else here
               </a>
             </div>
-          </li>
+          </li> */}
         </ul>
       </div>
     </nav>
