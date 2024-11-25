@@ -3,13 +3,19 @@ import ReactDOM from "react-dom/client";
 import "./custom.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import ColorSchemesExample from "./component/Navbar";
+import Navbar from "./component/Navbar";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./hooks/useAuth";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ColorSchemesExample />
-    <App />
+    <BrowserRouter>
+      <AuthProvider>
+        <Navbar />
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

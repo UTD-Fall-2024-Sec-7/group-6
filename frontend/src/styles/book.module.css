@@ -1,0 +1,64 @@
+.main {
+  padding: 2rem 4rem;
+  height: 100vh;
+}
+
+.imgContainer {
+  height: 100%;
+}
+
+.img {
+  width: 100%;
+  max-width: 325px;
+}
+
+.mainContainer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+}
+
+.content {
+  padding: 0;
+  margin: 0;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  gap: 0.5rem;
+}
+
+.rating {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dropDown {
+  width: 100%;
+  background-color: red;
+}
+
+.checkoutContainer {
+  border: 2px solid black;
+}
+
+.buttonContainer {
+  padding: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2rem;
+}
+
+.buttonContainer:first-child {
+  border-bottom: 2px solid black;
+}
+
+.textContainer {
+  width: 13rem;
+}
