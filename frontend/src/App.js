@@ -7,6 +7,7 @@ import ProtectedRoute from "./component/ProtectedRoute";
 
 import "./App.css";
 import BookPage from "./pages/book";
+import CheckoutPage from "./pages/checkout";
 
 function App() {
   return (
@@ -31,6 +32,14 @@ function App() {
           element={
             <ProtectedRoute>
               <HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <CheckoutPage />
             </ProtectedRoute>
           }
         />

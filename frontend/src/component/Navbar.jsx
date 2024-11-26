@@ -38,6 +38,11 @@ function Navbar() {
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="/checkout">
+              Cart
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/login">
               {user.username ? "Logout" : "Login"}
               {user.username}

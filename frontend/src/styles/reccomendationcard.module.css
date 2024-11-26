@@ -1,0 +1,9 @@
+.img {
+  width: 100%;
+  max-width: 100px;
+}
+
+.itemCard {
+  display: flex;
+  gap: 1rem;
+}

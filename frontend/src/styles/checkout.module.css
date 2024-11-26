@@ -1,0 +1,57 @@
+.main {
+  padding: 2rem;
+}
+
+.body {
+  display: flex;
+  gap: 2rem;
+}
+
+.mainBody {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.subBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.itemWrapper,
+.wishListWrapper,
+.checkout {
+  padding: 1.5rem;
+}
+
+.itemWrapper,
+.wishListWrapper,
+.checkout,
+.reccomendation {
+  background-color: aliceblue;
+}
+
+.itemWrapper,
+.checkoutWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.checkout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkoutHeading {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.reccomendation {
+  padding: 1rem;
+}

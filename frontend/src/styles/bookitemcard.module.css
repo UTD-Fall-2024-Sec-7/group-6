@@ -1,0 +1,21 @@
+.img {
+  width: 100%;
+  max-width: 200px;
+}
+
+.itemCard {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.itemContent {
+  width: 100%;
+  padding: 0rem 2rem;
+}
+
+.cardTitle {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
