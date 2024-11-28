@@ -8,14 +8,16 @@ import ProtectedRoute from "./component/ProtectedRoute";
 import "./App.css";
 import BookPage from "./pages/book";
 import CheckoutPage from "./pages/checkout";
+import CreateProfile from "./pages/createprofile"; // Import CreateProfile page
 
 function App() {
   return (
     <AuthProvider>
       <Routes>
-        {/* Public Route */}
+        {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/createprofile" element={<CreateProfile />} /> {/* New Route */}
         <Route path="/book/:id" element={<BookPage />} />
 
         {/* Protected Routes */}

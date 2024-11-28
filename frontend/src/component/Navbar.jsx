@@ -42,6 +42,11 @@ function Navbar() {
               Cart
             </a>
           </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/createprofile">
+              Create Profile
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="/login">
               {user.username ? "Logout" : "Login"}

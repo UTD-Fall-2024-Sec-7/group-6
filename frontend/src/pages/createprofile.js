@@ -1,33 +1,31 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function CreateProfile() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleCreateProfile = (e) => {
     e.preventDefault();
 
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    
-    if (storedUser) {
-      // Check if the entered username and password match the stored ones
-      if (storedUser.username === username && storedUser.password === password) {
-        alert("Login successful!");
-        navigate("/home"); // Redirect to the home page or wherever you need
-      } else {
-        alert("Invalid username or password.");
-      }
+    if (username && password && email) {
+      const newUser = { username, password, email };
+      // Save the new user profile to localStorage
+      localStorage.setItem("user", JSON.stringify(newUser));
+
+      // Redirect to login page
+      navigate("/login");
     } else {
-      alert("No user found. Please create a profile first.");
+      alert("All fields are required.");
     }
   };
 
   return (
     <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+      <h2>Create Profile</h2>
+      <form onSubmit={handleCreateProfile}>
         <div>
           <label htmlFor="username">Username:</label>
           <input
@@ -46,10 +44,19 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit">Login</button>
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <button type="submit">Create Profile</button>
       </form>
     </div>
   );
 }
 
-export default Login;
+export default CreateProfile;
