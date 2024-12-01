@@ -1,10 +1,11 @@
-import React from "react";
+// CheckoutPage.js
+import React, { useState, useEffect } from "react";
+import { useCart } from "../CartContext";
 import styles from "../styles/checkout.module.css";
 import BookItemCard from "../component/BookItemCard";
 import Button from "react-bootstrap/Button";
 import ReccomendationCard from "../component/ReccomendationCard";
 import Modal from "react-bootstrap/Modal";
-import { useState } from "react";
 import Form from "react-bootstrap/Form";
 
 function MyVerticallyCenteredModal(props) {
@@ -99,46 +100,13 @@ function MyVerticallyCenteredModal(props) {
 }
 
 function CheckoutPage() {
-  const cart = [
-    {
-      id: 1001,
-      title: "To Kill a Mockingbird",
-      author: "Spongebob Squarepants",
-      desc: "A novel by Harper Lee exploring themes of racial injustice and moral growth in the American South.",
-      img: "https://m.media-amazon.com/images/I/81aY1lxk+9L.jpg", // Cover image for To Kill a Mockingbird
-      rating: 4.5,
-      numReview: 325,
-      price: 19.71,
-      type: "Hardcover",
-    },
-    {
-      id: 1002,
-      title: "1984",
-      author: "George Orwell",
-      desc: "A novel by Harper Lee exploring themes of racial injustice and moral growth in the American South.",
-      img: "https://m.media-amazon.com/images/I/91SZSW8qSsL.jpg", // Cover image for To Kill a Mockingbird
-      rating: 4.5,
-      numReview: 325,
-      price: 19.71,
-      type: "Hardcover",
-    },
-  ];
-
-  const wishlist = [
-    {
-      id: 1002,
-      title: "1984",
-      author: "George Orwell",
-      desc: "A novel by Harper Lee exploring themes of racial injustice and moral growth in the American South.",
-      img: "https://m.media-amazon.com/images/I/91SZSW8qSsL.jpg", // Cover image for To Kill a Mockingbird
-      rating: 4.5,
-      numReview: 325,
-      price: 19.71,
-      type: "Hardcover",
-    },
-  ];
-
+  const { cart } = useCart(); // Use the cart context here
   const [modalShow, setModalShow] = useState(false);
+
+  useEffect(() => {
+    console.log("Cart in CheckoutPage:", cart);
+  }, [cart]); // Log cart whenever it updates
+
   return (
     <>
       <div className={styles.main}>
@@ -148,22 +116,27 @@ function CheckoutPage() {
           <div className={styles.mainBody}>
             <div className={styles.itemWrapper}>
               {cart.map((book) => {
-                return <BookItemCard book={book} />;
-              })}
-            </div>
-            <div className={styles.wishListWrapper}>
-              {wishlist.map((book) => {
-                return <BookItemCard book={book} />;
+                return <BookItemCard key={book.id} book={book} />;
               })}
             </div>
           </div>
           <div className={styles.subBody}>
             <div className={styles.checkout}>
               <h3>Order Summary</h3>
-              <p className={styles.checkoutHeading}>2x The Nightingale</p>
-              <p className={styles.checkoutHeading}>2x The Nightingale</p>
-              <p className={styles.checkoutHeading}>2x The Nightingale</p>
-              <p className={styles.checkoutPrice}>Subtotal (2 items): $49.50</p>
+              {cart.map((book) => (
+                <p key={book.id} className={styles.checkoutHeading}>
+                  {book.title} x{book.quantity}
+                </p>
+              ))}
+              <p className={styles.checkoutPrice}>
+                Subtotal: $
+                {cart
+                  .reduce(
+                    (total, book) => total + book.price * book.quantity,
+                    0
+                  )
+                  .toFixed(2)}
+              </p>
               <Button
                 variant="primary"
                 size="lg"

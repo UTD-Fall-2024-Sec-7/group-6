@@ -1,25 +1,63 @@
 import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig"; // Ensure this is correctly set up
 import StarRatings from "react-star-ratings";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Button from "react-bootstrap/Button";
 import styles from "../styles/book.module.css";
-import { useState } from "react";
+import { useCart } from "../CartContext";
 
 const BookPage = () => {
   const { id } = useParams();
+  const [book, setBook] = useState(null); // State to store the book data
   const [bookType, setBookType] = useState("HardCover");
-  const book = {
-    id: 1001,
-    title: "To Kill a Mockingbird",
-    author: "Spongebob Squarepants",
-    desc: "A novel by Harper Lee exploring themes of racial injustice and moral growth in the American South.",
-    img: "https://m.media-amazon.com/images/I/81aY1lxk+9L.jpg", // Cover image for To Kill a Mockingbird
-    rating: 4.5,
-    numReview: 325,
-    price: 19.71,
+  const [loading, setLoading] = useState(true);
+  const { addToCart } = useCart(); // Get the addToCart function from the context
+
+  // Fetch book details by ID
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        const bookRef = doc(db, "books", id); // Replace "books" with your collection name
+        const bookSnap = await getDoc(bookRef);
+
+        if (bookSnap.exists()) {
+          setBook(bookSnap.data());
+        } else {
+          console.error("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching book:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBook();
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!book) {
+    return <div>Book not found</div>;
+  }
+
+  // Function to handle adding the book to the cart
+  const handleAddToCart = () => {
+    addToCart({
+      id: id, // Ensure this is unique for the book
+      title: book.title,
+      author: book.author,
+      price: book.price,
+      img: book.img,
+      type: bookType, // Add the selected book type
+    });
+    console.log("ADDED TO CART");
   };
 
   return (
@@ -28,11 +66,7 @@ const BookPage = () => {
       <hr />
       <div className={styles.mainContainer}>
         <div className={styles.imgContainer}>
-          <img
-            alt="book-img"
-            src="https://m.media-amazon.com/images/I/81aY1lxk+9L.jpg"
-            className={styles.img}
-          />
+          <img alt="book-img" src={book.img} className={styles.img} />
         </div>
         <div className={styles.content}>
           <h2>{book.title}</h2>
@@ -45,7 +79,7 @@ const BookPage = () => {
               numberOfStars={5}
               name="rating"
             />
-            {book.rating} ({book.numReview})<a href="#">Write a Review</a>
+            {book.rating} ({book.numReview}) <a href="#">Write a Review</a>
           </div>
 
           <DropdownButton
@@ -81,6 +115,7 @@ const BookPage = () => {
             </Dropdown.Item>
           </DropdownButton>
           <h3>${book.price}</h3>
+          <p>{book.desc}</p>
           <div className={styles.checkoutContainer}>
             <div className={styles.buttonContainer}>
               <h4 className={styles.textContainer}>SHIP THIS ITEM</h4>
@@ -88,13 +123,18 @@ const BookPage = () => {
                 variant="primary"
                 size="lg"
                 style={{ backgroundColor: "#CBD9F2", border: "none" }}
+                onClick={handleAddToCart} // Add book to cart
               >
                 Add to Cart
               </Button>
             </div>
             <div className={styles.buttonContainer}>
               <h4 className={styles.textContainer}>PICK UP IN STORE</h4>
-              <Button variant="primary" size="lg">
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={handleAddToCart} // Add book to cart
+              >
                 Add to Cart
               </Button>
             </div>

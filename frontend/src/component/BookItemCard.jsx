@@ -17,7 +17,7 @@ function BookItemCard({ book }) {
         </p>
         <p>In Stock</p>
         <p>Free Delivery | Pick Up In Store</p>
-        <p>- 1 + | Delete | Save for Later | Share</p>
+        <p>- {book.quantity} + | Delete | Save for Later | Share</p>
       </div>
     </div>
   );

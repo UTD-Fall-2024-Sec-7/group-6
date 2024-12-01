@@ -5,9 +5,15 @@ function Navbar() {
   const { user } = useAuth();
   console.log(user.username);
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">
-        Navbar
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-light"
+      style={{ padding: "0 2rem" }}
+    >
+      <a class="navbar-brand" href="/">
+        <img
+          src="../logo.webp"
+          style={{ maxWidth: "4rem", borderRadius: "2rem" }}
+        />
       </a>
       <button
         class="navbar-toggler"
