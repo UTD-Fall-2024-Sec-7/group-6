@@ -9,6 +9,9 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Button from "react-bootstrap/Button";
 import styles from "../styles/book.module.css";
 import { useCart } from "../CartContext";
+import { ToastContainer, toast } from "react-toastify"; // Import Toastify
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
+import CartSideBar from "../component/CartSideBar";
 
 const BookPage = () => {
   const { id } = useParams();
@@ -57,89 +60,103 @@ const BookPage = () => {
       img: book.img,
       type: bookType, // Add the selected book type
     });
-    console.log("ADDED TO CART");
+
+    // Show success toast notification
+    toast.success(`${book.title} has been added to your cart!`, {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   return (
     <div className={styles.main}>
+      <ToastContainer /> {/* Toast container for notifications */}
       <h1>Book Details</h1>
       <hr />
-      <div className={styles.mainContainer}>
-        <div className={styles.imgContainer}>
-          <img alt="book-img" src={book.img} className={styles.img} />
-        </div>
-        <div className={styles.content}>
-          <h2>{book.title}</h2>
-          <p>By {book.author}</p>
-          <div className={styles.rating}>
-            <StarRatings
-              rating={book.rating}
-              starRatedColor="#CBD9F2"
-              starDimension="30px"
-              numberOfStars={5}
-              name="rating"
-            />
-            {book.rating} ({book.numReview}) <a href="#">Write a Review</a>
+      <div className={styles.body}>
+        <div className={styles.mainContainer}>
+          <div className={styles.imgContainer}>
+            <img alt="book-img" src={book.img} className={styles.img} />
           </div>
+          <div className={styles.content}>
+            <h2>{book.title}</h2>
+            <p>By {book.author}</p>
+            <div className={styles.rating}>
+              <StarRatings
+                rating={book.rating}
+                starRatedColor="#CBD9F2"
+                starDimension="30px"
+                numberOfStars={5}
+                name="rating"
+              />
+              {book.rating} ({book.numReview}) <a href="#">Write a Review</a>
+            </div>
 
-          <DropdownButton
-            as={ButtonGroup}
-            id={`dropdown-variants-${"Primary"}`}
-            variant={"primary"}
-            title={bookType}
-            style={{ width: "2rem" }}
-          >
-            <Dropdown.Item
-              eventKey="1"
-              onClick={() => {
-                setBookType("Online");
-              }}
+            <DropdownButton
+              as={ButtonGroup}
+              id={`dropdown-variants-${"Primary"}`}
+              variant={"primary"}
+              title={bookType}
+              style={{ width: "2rem" }}
             >
-              Online
-            </Dropdown.Item>
-            <Dropdown.Item
-              eventKey="1"
-              onClick={() => {
-                setBookType("Hardcover");
-              }}
-            >
-              Hardcover
-            </Dropdown.Item>
-            <Dropdown.Item
-              eventKey="1"
-              onClick={() => {
-                setBookType("Softcover");
-              }}
-            >
-              Softcover
-            </Dropdown.Item>
-          </DropdownButton>
-          <h3>${book.price}</h3>
-          <p>{book.desc}</p>
-          <div className={styles.checkoutContainer}>
-            <div className={styles.buttonContainer}>
-              <h4 className={styles.textContainer}>SHIP THIS ITEM</h4>
-              <Button
-                variant="primary"
-                size="lg"
-                style={{ backgroundColor: "#CBD9F2", border: "none" }}
-                onClick={handleAddToCart} // Add book to cart
+              <Dropdown.Item
+                eventKey="1"
+                onClick={() => {
+                  setBookType("Online");
+                }}
               >
-                Add to Cart
-              </Button>
-            </div>
-            <div className={styles.buttonContainer}>
-              <h4 className={styles.textContainer}>PICK UP IN STORE</h4>
-              <Button
-                variant="primary"
-                size="lg"
-                onClick={handleAddToCart} // Add book to cart
+                Online
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey="1"
+                onClick={() => {
+                  setBookType("Hardcover");
+                }}
               >
-                Add to Cart
-              </Button>
+                Hardcover
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey="1"
+                onClick={() => {
+                  setBookType("Softcover");
+                }}
+              >
+                Softcover
+              </Dropdown.Item>
+            </DropdownButton>
+            <h3>${book.price}</h3>
+            <p>{book.desc}</p>
+            <div className={styles.checkoutContainer}>
+              <div className={styles.buttonContainer}>
+                <h4 className={styles.textContainer}>SHIP THIS ITEM</h4>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  style={{ backgroundColor: "#CBD9F2", border: "none" }}
+                  onClick={handleAddToCart} // Add book to cart
+                >
+                  Add to Cart
+                </Button>
+              </div>
+              <div className={styles.buttonContainer}>
+                <h4 className={styles.textContainer}>PICK UP IN STORE</h4>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={handleAddToCart} // Add book to cart
+                >
+                  Add to Cart
+                </Button>
+              </div>
             </div>
           </div>
         </div>
+        <CartSideBar />
       </div>
     </div>
   );

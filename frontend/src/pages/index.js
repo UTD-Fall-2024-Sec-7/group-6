@@ -7,7 +7,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import InputGroup from "react-bootstrap/InputGroup";
-import { app } from "../firebaseConfig"; // Ensure firebaseConfig is correctly imported
+import { app } from "../firebaseConfig";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 
 import { useState, useEffect } from "react";
@@ -150,9 +150,33 @@ function HomePage() {
           <div style={styles.searchCardWrapper}>
             {books
               .filter((book) => {
-                return search.toLowerCase() === ""
-                  ? true
-                  : book.title.toLowerCase().includes(search.toLowerCase());
+                if (search.toLowerCase() === "") return true;
+
+                // Perform search based on the selected filter criterion
+                switch (activeItem) {
+                  case "Book Title":
+                    return book.title
+                      .toLowerCase()
+                      .includes(search.toLowerCase());
+                  case "Author Name":
+                    return book.author
+                      .toLowerCase()
+                      .includes(search.toLowerCase());
+                  case "ISBN Number":
+                    return book.isbn
+                      .toLowerCase()
+                      .includes(search.toLowerCase());
+                  case "Availability Status":
+                    return book.availabilityStatus
+                      .toLowerCase()
+                      .includes(search.toLowerCase());
+                  case "Publication Date":
+                    return book.publicationDate
+                      .toLowerCase()
+                      .includes(search.toLowerCase());
+                  default:
+                    return false;
+                }
               })
               .map((book) => {
                 return <CustomCard key={book.id} book={book} />;

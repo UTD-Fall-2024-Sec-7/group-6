@@ -10,6 +10,7 @@ import BookPage from "./pages/book";
 import CheckoutPage from "./pages/checkout";
 import CreatePage from "./pages/create";
 import { CartProvider } from "./CartContext";
+import CreateProfile from "./pages/createprofile"; // Import CreateProfile page
 
 function App() {
   return (
@@ -19,8 +20,8 @@ function App() {
           {/* Public Route */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/createprofile" element={<CreateProfile />} />
           <Route path="/book/:id" element={<BookPage />} />
-          <Route path="/write" element={<CreatePage />} />
 
           {/* Protected Routes */}
           <Route

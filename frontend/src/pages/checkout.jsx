@@ -7,14 +7,19 @@ import Button from "react-bootstrap/Button";
 import ReccomendationCard from "../component/ReccomendationCard";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { app } from "../firebaseConfig";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 function MyVerticallyCenteredModal(props) {
+  const { cart, clearCart } = useCart();
+  const db = getFirestore(app);
   const [formData, setFormData] = useState({
     cardNumber: "",
     nameOnCard: "",
     expirationDate: "",
     securityCode: "",
   });
+  const [isSubmitted, setIsSubmitted] = useState(false); // State to track form submission
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,10 +29,37 @@ function MyVerticallyCenteredModal(props) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form Submitted:", formData);
-    // Add your form processing logic here
+    const price = cart
+      .reduce((total, book) => total + book.price * book.quantity, 0)
+      .toFixed(2);
+    const order = {
+      books: cart, // Replace with dynamic book array
+      totalPrice: price, // Calculate total dynamically
+      user: "userId123", // Replace with dynamic user ID
+      purchaseDate: new Date(),
+    };
+
+    // Perform validation if needed
+    if (
+      formData.cardNumber &&
+      formData.nameOnCard &&
+      formData.expirationDate &&
+      formData.securityCode
+    ) {
+      try {
+        // Save order to Firestore
+        const docRef = await addDoc(collection(db, "orders"), order);
+        console.log("Order saved with ID: ", docRef.id);
+        setIsSubmitted(true);
+        clearCart();
+        localStorage.removeItem("cart");
+      } catch (error) {
+        console.error("Error adding document: ", error);
+      }
+    }
   };
 
   return (
@@ -39,61 +71,70 @@ function MyVerticallyCenteredModal(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Payment Details
+          {isSubmitted ? "Thank You!" : "Payment Details"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="cardNumber">
-            <Form.Label>Card Number</Form.Label>
-            <Form.Control
-              type="text"
-              name="cardNumber"
-              placeholder="1234 5678 9012 3456"
-              value={formData.cardNumber}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="nameOnCard">
-            <Form.Label>Name on Card</Form.Label>
-            <Form.Control
-              type="text"
-              name="nameOnCard"
-              placeholder="John Doe"
-              value={formData.nameOnCard}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="expirationDate">
-            <Form.Label>Expiration Date</Form.Label>
-            <Form.Control
-              type="month"
-              name="expirationDate"
-              value={formData.expirationDate}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="securityCode">
-            <Form.Label>Security Code</Form.Label>
-            <Form.Control
-              type="password"
-              name="securityCode"
-              placeholder="123"
-              value={formData.securityCode}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit Order
-          </Button>
-        </Form>
+        {isSubmitted ? (
+          <div>
+            <h4>Thank you for your purchase!</h4>
+            <p>Your order has been submitted successfully.</p>
+          </div>
+        ) : (
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="cardNumber">
+              <Form.Label>Card Number</Form.Label>
+              <Form.Control
+                type="text"
+                name="cardNumber"
+                placeholder="1234 5678 9012 3456"
+                value={formData.cardNumber}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="nameOnCard">
+              <Form.Label>Name on Card</Form.Label>
+              <Form.Control
+                type="text"
+                name="nameOnCard"
+                placeholder="John Doe"
+                value={formData.nameOnCard}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="expirationDate">
+              <Form.Label>Expiration Date</Form.Label>
+              <Form.Control
+                type="month"
+                name="expirationDate"
+                value={formData.expirationDate}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="securityCode">
+              <Form.Label>Security Code</Form.Label>
+              <Form.Control
+                type="password"
+                name="securityCode"
+                placeholder="123"
+                value={formData.securityCode}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Submit Order
+            </Button>
+          </Form>
+        )}
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={props.onHide}>
+          {isSubmitted ? "Close" : "Cancel"}
+        </Button>
       </Modal.Footer>
     </Modal>
   );

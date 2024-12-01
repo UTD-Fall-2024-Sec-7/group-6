@@ -1,31 +1,39 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useAuth } from "../hooks/useAuth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
 
-function Login() {
-  const [email, setEmail] = useState(""); // Replace username with email for Firebase
+function CreateProfile() {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const auth = getAuth();
+  const handleCreateProfile = async (e) => {
+    e.preventDefault(); // Prevent default form submission
 
-    try {
-      // Authenticate the user using Firebase Auth
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response.user);
-      login(response.user);
+    if (username && password && email) {
+      const auth = getAuth();
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = userCredential.user;
 
-      alert("Login successful!");
-      navigate("/home"); // Redirect to the home page
-    } catch (err) {
-      // Handle errors and display error message
-      setError(err.message);
+        // Save user data to localStorage or any state management library
+        const newUser = { username, email, uid: user.uid };
+        localStorage.setItem("user", JSON.stringify(newUser));
+
+        // Redirect to login page
+        navigate("/login");
+      } catch (error) {
+        setError(error.message); // Show error to the user
+      }
+    } else {
+      setError("All fields are required.");
     }
   };
 
@@ -37,9 +45,20 @@ function Login() {
       <Row className="w-100">
         <Col xs={12} md={8} lg={5} className="mx-auto">
           <div className="p-5 shadow rounded bg-light">
-            <h2 className="text-center mb-4">Login</h2>
+            <h2 className="text-center mb-4">Create Profile</h2>
             {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleLogin}>
+            <Form onSubmit={handleCreateProfile}>
+              <Form.Group className="mb-3" controlId="username">
+                <Form.Label>Username:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  size="lg"
+                />
+              </Form.Group>
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email:</Form.Label>
                 <Form.Control
@@ -68,7 +87,7 @@ function Login() {
                 className="w-100"
                 size="lg"
               >
-                Login
+                Create Profile
               </Button>
             </Form>
           </div>
@@ -78,4 +97,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default CreateProfile;

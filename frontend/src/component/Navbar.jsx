@@ -1,9 +1,9 @@
 import React from "react";
 import { useAuth } from "../hooks/useAuth";
+import { useCart } from "../CartContext";
 
 function Navbar() {
   const { user } = useAuth();
-  console.log(user.username);
   return (
     <nav
       class="navbar navbar-expand-lg navbar-light bg-light"
@@ -34,12 +34,12 @@ function Navbar() {
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/">
               Account
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/">
               Menu
             </a>
           </li>
@@ -48,12 +48,27 @@ function Navbar() {
               Cart
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/login">
-              {user.username ? "Logout" : "Login"}
-              {user.username}
-            </a>
-          </li>
+          {user ? (
+            <li class="nav-item">
+              <a class="nav-link" href="/login">
+                Log out
+              </a>
+            </li>
+          ) : (
+            <>
+              <li class="nav-item">
+                <a class="nav-link" href="/login">
+                  Log in
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/createprofile">
+                  Sign Up
+                </a>
+              </li>
+            </>
+          )}
+
           {/* <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
