@@ -49,11 +49,18 @@ function Navbar() {
             </a>
           </li>
           {user ? (
-            <li class="nav-item">
-              <a class="nav-link" href="/login">
-                Log out
-              </a>
-            </li>
+            <>
+              <li class="nav-item">
+                <a class="nav-link" href="/login">
+                  Log in
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/createprofile">
+                  Sign Up
+                </a>
+              </li>
+            </>
           ) : (
             <>
               <li class="nav-item">
